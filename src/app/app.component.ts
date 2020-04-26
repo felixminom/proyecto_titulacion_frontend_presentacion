@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatSliderModule} from '@angular/material/slider';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'frontend-presentacion';
+  title = 'Visualizacion';
 }
