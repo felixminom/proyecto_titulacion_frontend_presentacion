@@ -10,9 +10,12 @@
       </mat-grid-tile>
     </mat-grid-list>
   
-  
-  
     <mat-card-content class="tabla">
+
+      <mat-form-field>
+        <input matInput (keyup)="aplicarFiltro($event.target.value)"
+        placeholder="Buscar por nombre">
+      </mat-form-field>
   
       <table mat-table [dataSource]="listaPoliticas" style="width: 100%">
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
