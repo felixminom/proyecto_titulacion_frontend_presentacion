@@ -1,0 +1,33 @@
+.mat-row:nth-child(even){
+    background-color:white;
+    text-align: center;
+}   
+
+.mat-row:nth-child(odd){
+    background-color:#BFC9CA;
+    text-align: center;
+}
+
+.mat-row:hover {
+    background-color:#106CC8;
+}
+
+.mat-row:hover .mat-cell{
+    color: white
+}
+
+.tabla{
+    height: 500px; 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    padding-left: 30px;
+    padding-right: 30px;
+}
+ 
+:host::ng-deep th.mat-header-cell {
+    padding: 0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    text-align: center;
+}
+
