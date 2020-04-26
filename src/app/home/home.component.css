@@ -1,0 +1,50 @@
+.titulo {
+    padding-top: 20px; 
+    font-weight: 500;
+}
+
+.div {
+    border: solid;
+    width: 90%;
+}
+
+.imagen {
+    width: 800px;
+    height: 200px;
+    object-fit: contain;
+}
+
+.contenedor {
+    display: flex;
+    justify-content: center;
+    margin-top: -20px;
+}
+
+.boton {
+    color: white;
+    background-color: #106CC8;
+    width: 80%;
+    height: 80%;
+    font-size: 22px;
+    font-weight: 300;
+}
+
+.boton:hover {
+    background-color: #01579B;
+}
+
+.parrafo { 
+    font-size: 20px;
+    padding-left: 15px;
+    line-height: 1.8;
+    text-align: justify;
+    width: 93%;
+}
+
+.leyenda { 
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 100
+    ;
+}

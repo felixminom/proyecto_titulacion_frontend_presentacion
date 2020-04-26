@@ -1,0 +1,17 @@
+<div style="overflow-y: hidden;">
+    <mat-toolbar class="fondo">
+        <mat-icon>
+            book
+        </mat-icon>
+
+        <span matTooltip="Regresar a inicio" class="titulo" [routerLink]="['/home']"
+            routerLinkActive="router-link-active">
+            Herramienta de Visualización
+        </span>
+
+    </mat-toolbar>
+    <div>
+        <router-outlet></router-outlet>
+    </div>
+
+</div>

@@ -1,0 +1,10 @@
+.titulo { 
+    cursor: pointer;
+    padding-left: 20px;
+    text-transform: capitalize;
+}
+
+.fondo{
+    background-color:#106CC8;
+    color: white;
+}
