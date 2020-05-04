@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Politica } from './lista-politicas';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-politicas',
@@ -47,10 +48,12 @@ export class ListaPoliticasComponent implements OnInit {
     return a;
   }
 
-  constructor() { }
+  constructor(
+    private _router : Router
+  ) { }
 
-  redirigirPolitica(politica){
-    
+  redirigirPolitica(politica : Politica){
+    this._router.navigate(['listaPoliticas/Politica'],  { state: { politica_id: politica.id } })
   }
 
   aplicarFiltro(valor: string) {

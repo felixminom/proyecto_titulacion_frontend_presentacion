@@ -1,0 +1,89 @@
+<div style="padding: 20px;">
+    <mat-grid-list cols="20" rowHeight="30px" style="width: 100%; overflow: auto;">
+        <mat-grid-tile [colspan]="2" [rowspan]="19"></mat-grid-tile>
+
+        <mat-grid-tile [colspan]="6" [rowspan]="19" style="width: 650px; height: 100%;">
+            <div style="width: 625px; overflow-y: auto ; margin-top: 10px;">
+                <div style="width: 100%;">
+                    <h2 class="categoria">
+                        Categorías de tratamiento
+                        <button *ngIf="filtradoAtributo" style="float: right;" class="boton" (click)="limpiarFiltros()"
+                            matTooltip="Limpiar Filtros" mat-raised-button>
+                            Limpiar
+                            <mat-icon>
+                                filter_list
+                            </mat-icon>
+                        </button>
+                    </h2>
+                    <small>
+                        Da click en una categoria para filtar anotaciones
+                    </small>
+                    <br>
+                    <small *ngIf="filtradoTratamiento" [ngStyle]="{'color': colorTexto}">
+                        Filtrado por: {{filtradoTexto}}
+                    </small>
+                </div>
+                <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" style="margin-top: 10px;">
+                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding class="fondo"
+                        [ngStyle]="{'border-color': node.color_primario}">
+                        <span [ngStyle]="{'color': node.color_primario}" matTooltip="Filtrar por este atributo"
+                            class="textoAtributo" (click)="filtrarAtributo(node)">
+                            {{node.descripcion}}
+                        </span>
+                    </mat-tree-node>
+
+                    <mat-tree-node 
+                                *matTreeNodeDef="let node;when: hasChild" 
+                                matTreeNodePadding class="fondo" 
+                                [ngStyle]="{'background-image': estiloTratamiento(node),'border-color': node.color_primario}">
+
+                        <div style="display: flex; justify-content: space-between; width: 95%;">
+                            <span matTooltip="Filtrar por este tratamiento" class="texto"
+                                (click)="manejarFiltroTratamiento(node)">
+                                {{node.descripcion}}
+                            </span>
+                            <span class="anotaciones" [ngStyle]="{'background-color': node.color_primario}">
+                                {{node.numero_anotaciones}}
+                            </span>
+
+                        </div>
+
+                    </mat-tree-node>
+                </mat-tree>
+
+            </div>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="1" [rowspan]="19"></mat-grid-tile>
+
+        <mat-grid-tile [colspan]="9" [rowspan]="3">
+            <mat-card style="height: 90px; width: 100%; background-color: #fafafa;">
+                <div style="display: flex; justify-content: space-between;">
+                    <h3 style="margin-bottom: 5px; margin-top: 5px;">
+                        {{presentacion.politica.nombre}}
+                    </h3>
+                    <span>
+                        Total de anotaciones: {{presentacion.total_anotaciones}}
+                    </span>
+                </div>
+                <br>
+                <span>
+                    Fecha en que se guardo la política: {{presentacion.politica.fecha}}
+                </span>
+            </mat-card>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="9" [rowspan]="16">
+
+            <mat-card id="politica" class="card">
+            </mat-card>
+        </mat-grid-tile>
+
+
+        <mat-grid-tile [colspan]="2" [rowspan]="15">
+
+        </mat-grid-tile>
+
+    </mat-grid-list>
+
+</div>

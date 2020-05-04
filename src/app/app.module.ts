@@ -8,13 +8,15 @@ import { MaterialModule } from './material-module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ListaPoliticasComponent } from './lista-politicas/lista-politicas.component';
 import { HomeComponent } from './home/home.component';
+import { PresentacionPoliticaComponent } from './presentacion-politica/presentacion-politica.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     ListaPoliticasComponent,
-    HomeComponent
+    HomeComponent,
+    PresentacionPoliticaComponent
   ],
   imports: [
     BrowserModule,
