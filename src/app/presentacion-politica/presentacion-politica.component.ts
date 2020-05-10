@@ -1,9 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FlatTreeControl, NestedTreeControl } from '@angular/cdk/tree';
+import { Component, Inject } from '@angular/core';
+import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { Tratamiento, PoliticaPresentacion, Politica, Parrafo, Anotacion, TratamientoAnotacion } from './presentacion-politica'
+import { Tratamiento, PoliticaPresentacion, Anotacion } from './presentacion-politica'
 import { DOCUMENT } from '@angular/common';
-import { equal } from 'assert';
+import { PresentacionPoliticaService } from './presentacion-politica.service';
+import { Router } from '@angular/router';
 
 interface TratamientoNodo {
   expandable: boolean;
@@ -14,218 +15,6 @@ interface TratamientoNodo {
   porcentaje: number;
 }
 
-const parrafo1: Parrafo = {
-  id: 1,
-  titulo: "Queremos que comprenda los tipos de información que recopilamos mientras usa nuestros servicios",
-  texto_html: "Recopilamos información para brindar mejores servicios a todos nuestros usuarios: desde entender cosas básicas como el idioma que usted habla, hasta cosas más complejas como los anuncios que a usted le parecen más útiles, la gente que más le importa en línea o los videos de YouTube que le pueden gustar.<br><br> La información que recopila Google y la forma en que se usa esa información dependen de la manera en la que use nuestros servicios y administre los controles de privacidad.<br><br>Cuando no accede a su Cuenta de Google, almacenamos la información que recopilamos con identificadores únicos que están vinculados con el navegador, la app o el dispositivo que esté usando. Esta acción nos permite realizar tareas como conservar sus preferencias de idiomas en las diferentes sesiones de navegación.<br><br>Cuando accede a su cuenta, también recopilamos información que almacenamos con su Cuenta de Google y que tratamos como información personal.<br><br>",
-  anotaciones: [
-    {
-      id: 1,
-      texto_html: "hasta cosas más complejas como los anuncios que a usted le parecen más útiles, la gente que más le importa en línea o los videos de YouTube que le pueden gustar.",
-      comentario: "Este es la primera anotacion",
-      permite: true,
-      tratamientos: [
-        {
-          tratamiento_id: 1,
-          tratamiento_descripcion: "Recoleccion",
-          atributo_id: 1,
-          atributo_descripcion: "Informacion personal",
-          valor_id: 1,
-          valor_descripcion: "Generico",
-          color_primario: "#CCCC25"
-        },
-        {
-          tratamiento_id: 2,
-          tratamiento_descripcion: "Retención",
-          atributo_id: 5,
-          atributo_descripcion: "Propósito de retención",
-          valor_id: 1,
-          valor_descripcion: "Generico",
-          color_primario: "#F06292"
-
-        }
-
-      ]
-
-    },
-    {
-      id: 1,
-      texto_html: "<br><br>Cuando no accede a su Cuenta de Google, almacenamos la información que recopilamos con identificadores únicos que están vinculados con el navegador, la app o el dispositivo que esté usando. Esta acción nos permite realizar tareas como conservar sus preferencias de idiomas en las diferentes sesiones de navegación.<br><br>Cuando accede a su cuenta, también recopilamos información que almacenamos con su Cuenta de Google y que tratamos como información personal.",
-      comentario: "Este es la SEGUNNDA anotacion",
-      permite: false,
-      tratamientos: [
-        {
-          tratamiento_id: 2,
-          tratamiento_descripcion: "Retención",
-          atributo_id: 4,
-          atributo_descripcion: "Periodo de retención",
-          valor_id: 1,
-          valor_descripcion: "Generico",
-          color_primario: "#F06292"
-        },
-        {
-          tratamiento_id: 1,
-          tratamiento_descripcion: "Recoleccion",
-          atributo_id: 2,
-          atributo_descripcion: "Modo de recolección",
-          valor_id: 1,
-          valor_descripcion: "Generico",
-          color_primario: "#CCCC25"
-        }
-      ]
-
-    },
-
-  ]
-}
-
-const parrafo2: Parrafo = {
-  id: 2,
-  titulo: "¿Qué tipo de información recopilamos?",
-  texto_html: "A fin de proporcionarte los Productos de Facebook debemos tratar información sobre ti.<br><br> El tipo de información que recopilamos depende de la forma en la que usas nuestros Productos. <br><br> Puedes obtener información sobre cómo acceder a la información que recopilamos y cómo eliminarla en la configuración de Facebook y la configuración de Instagram. ",
-  anotaciones: [
-    {
-      id: 3,
-      texto_html: "Facebook debemos tratar información sobre ti.<br><br> El tipo de información que recopilamos depende de la forma en la que usas nuestros Productos.",
-      comentario: "Este es la tercera anotacion",
-      permite: false,
-      tratamientos: [
-        {
-          tratamiento_id: 2,
-          tratamiento_descripcion: "Retención",
-          atributo_id: 4,
-          atributo_descripcion: "Periodo de retención",
-          valor_id: 1,
-          valor_descripcion: "Generico",
-          color_primario: "#F06292"
-        },
-        {
-          tratamiento_id: 2,
-          tratamiento_descripcion: "Retención",
-          atributo_id: 5,
-          atributo_descripcion: "Propósito de retención",
-          valor_id: 1,
-          valor_descripcion: "Generico",
-          color_primario: "#F06292"
-        },
-
-      ]
-    },
-    {
-      id: 4,
-      texto_html: "Puedes obtener información sobre cómo acceder a la información que recopilamos y cómo eliminarla en la configuración de Facebook y la configuración de Instagram.",
-      comentario: "",
-      permite: false,
-      tratamientos: [
-        {
-          tratamiento_id: 3,
-          tratamiento_descripcion: "Difusión",
-          atributo_id: 6,
-          atributo_descripcion: "Propósito",
-          valor_id: 1,
-          valor_descripcion: "Generico",
-          color_primario: "#96c582"
-
-        },
-        {
-          tratamiento_id: 3,
-          tratamiento_descripcion: "Difusión",
-          atributo_id: 7,
-          atributo_descripcion: "Periodo",
-          valor_id: 1,
-          valor_descripcion: "Generico",
-          color_primario: "#96c582"
-        }
-      ]
-    }
-  ]
-}
-
-const listaTratamientos: Tratamiento[] = [
-  {
-    id: 1,
-    descripcion: "Recoleccion",
-    color_primario: '#CCCC25',
-    porcentaje: 75,
-    numero_anotaciones: 75,
-    atributos: [
-      {
-        id: 1,
-        descripcion: "Informacion personal",
-        color_primario: "#CCCC25"
-      },
-      {
-        id: 2,
-        descripcion: "Modo de recoleccion",
-        color_primario: "#CCCC25",
-      },
-      {
-        id: 3,
-        descripcion: "Eleccion de usuario",
-        color_primario: "#CCCC25",
-      },
-      {
-        id: 12,
-        descripcion: "Responsable de recoleccion",
-        color_primario: "#CCCC25",
-      }
-    ]
-  },
-  {
-    id: 2,
-    descripcion: "Retención",
-    color_primario: "#F06292",
-    porcentaje: 15,
-    numero_anotaciones: 15,
-    atributos: [
-      {
-        id: 4,
-        descripcion: "Periodo de retencion",
-        color_primario: "#F06292",
-      },
-      {
-        id: 5,
-        descripcion: "Proposito de retencion",
-        color_primario: "#F06292",
-      }
-    ]
-  },
-  {
-    id: 3,
-    descripcion: "Difusión",
-    color_primario: "#96c582",
-    porcentaje: 10,
-    numero_anotaciones: 10,
-    atributos: [
-      {
-        id: 6,
-        descripcion: "Proposito",
-        color_primario: "#96c582",
-      },
-      {
-        id: 7,
-        descripcion: "Periodo",
-        color_primario: "#96c582",
-      }
-    ]
-  }
-]
-
-const politca: Politica = {
-  id: 1,
-  nombre: "Google LLC",
-  fecha: "20/04/2020",
-  parrafos: [
-    parrafo1,
-    parrafo2
-  ]
-}
-const politicaPresentacion: PoliticaPresentacion = {
-  tratamientos: listaTratamientos,
-  politica: politca,
-  total_anotaciones: 100
-}
-
 @Component({
   selector: 'app-presentacion-politica',
   templateUrl: './presentacion-politica.component.html',
@@ -233,7 +22,7 @@ const politicaPresentacion: PoliticaPresentacion = {
 })
 
 
-export class PresentacionPoliticaComponent implements OnInit {
+export class PresentacionPoliticaComponent{
 
   filtradoTratamiento: boolean = false;
   tratamientoFiltroId: number = 0;
@@ -244,10 +33,9 @@ export class PresentacionPoliticaComponent implements OnInit {
   filtradoTexto: string = ""
   colorTexto: string = "#000";
 
-  //Politica 
   presentacion: PoliticaPresentacion;
   politicaTexto: string = "";
-
+  politicaId : number = 0;
 
   private _transformer = (node: Tratamiento, level: number) => {
     return {
@@ -270,10 +58,12 @@ export class PresentacionPoliticaComponent implements OnInit {
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   constructor(
-    @Inject(DOCUMENT) private _documento: Document
-  ) {
-    this.presentacion = politicaPresentacion;
-    this.dataSource.data = this.presentacion.tratamientos;
+    @Inject(DOCUMENT) private _documento: Document,
+    private _presentacionPoliticaService : PresentacionPoliticaService,
+    private _router : Router
+  ) { 
+    this.politicaId = this._router.getCurrentNavigation().extras.state.politica_id
+    this.consultarPolitica(this.politicaId)
   }
 
   hasChild = (_: number, node: TratamientoNodo) => node.expandable;
@@ -286,10 +76,6 @@ export class PresentacionPoliticaComponent implements OnInit {
     this.filtradoTexto = this.filtradoTexto.split("|")[0] + " | " + atributo.descripcion
 
     this.aplicarFiltroAtributo(atributo.id);
-  }
-
-  igual(elemento: number, id: number) {
-    return elemento === id
   }
 
   aplicarFiltroTratamiento(tratamiento_id: number) {
@@ -469,8 +255,14 @@ export class PresentacionPoliticaComponent implements OnInit {
     }
   }
 
-
-  ngOnInit() {
-    this.politicaOriginal()
+  consultarPolitica(politica_id: number){
+    this._presentacionPoliticaService.consultarPoliticaPresentacion(politica_id).subscribe(
+      politica => {
+       this.presentacion = politica
+       this.dataSource.data = politica.tratamientos
+       this.politicaOriginal()
+      },
+      error => console.log(error)
+    )
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Politica } from './lista-politicas';
 import { Router } from '@angular/router';
+import { ListaPoliticasService } from './lista-politicas.service';
 
 @Component({
   selector: 'app-lista-politicas',
@@ -13,43 +14,11 @@ export class ListaPoliticasComponent implements OnInit {
 
   displayedColumns = ['id', 'nombre', 'fecha', 'total_anotaciones'];
 
-  today = new Date();
-
-  dd = String(this.today.getDate()).padStart(2, '0')
-  dd2 = String(this.today.setDate(28)).padStart(2, '0')
-  mm = String(this.today.getMonth() + 1).padStart(2, '0');
-  yyyy = this.today.getFullYear()
-
-  fecha = this.dd +'/' +this.mm +'/' + this.yyyy;
-
-  politica : Politica = {
-    id: 1, 
-    nombre: "Youtube",
-    fecha: this.fecha,
-    total_anotaciones: 57
-  }
-
-  politica2 : Politica = {
-    id: 2, 
-    nombre: "Gmail",
-    fecha: this.fecha,
-    total_anotaciones: 59
-  }
-
-  datos : Politica[] = this.fillArray(this.politica, 5).concat(this.fillArray(this.politica2, 4))
-
-  listaPoliticas = new MatTableDataSource(this.datos)
-
-  fillArray(value, len) {
-    if (len == 0) return [];
-    var a = [value];
-    while (a.length * 2 <= len) a = a.concat(a);
-    if (a.length < len) a = a.concat(a.slice(0, len - a.length));
-    return a;
-  }
+  listaPoliticas : MatTableDataSource<Politica>;
 
   constructor(
-    private _router : Router
+    private _router : Router,
+    private _listaPoliticasService : ListaPoliticasService
   ) { }
 
   redirigirPolitica(politica : Politica){
@@ -60,7 +29,15 @@ export class ListaPoliticasComponent implements OnInit {
     this.listaPoliticas.filter = valor.trim().toLowerCase()
   }
 
+  consultarPoliticas(){
+    this._listaPoliticasService.consultarListaPoliticas().subscribe(
+      (politicas : Politica[]) => this.listaPoliticas = new MatTableDataSource(politicas),
+      () => console.log('error')
+    )
+  }
+
   ngOnInit() {
+    this.consultarPoliticas();
     this.listaPoliticas.filterPredicate = function(data, filter : string): boolean {
       return data.nombre.toLowerCase().includes(filter)
     }

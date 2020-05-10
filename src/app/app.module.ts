@@ -9,6 +9,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ListaPoliticasComponent } from './lista-politicas/lista-politicas.component';
 import { HomeComponent } from './home/home.component';
 import { PresentacionPoliticaComponent } from './presentacion-politica/presentacion-politica.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { PresentacionPoliticaComponent } from './presentacion-politica/presentac
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

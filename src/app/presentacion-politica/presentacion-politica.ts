@@ -10,7 +10,6 @@ export class Tratamiento {
 export class PoliticaPresentacion{
     tratamientos : Tratamiento[];
     politica : Politica;
-    total_anotaciones : number;
 }
 
 export class Politica {

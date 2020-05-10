@@ -58,16 +58,13 @@
 
         <mat-grid-tile [colspan]="9" [rowspan]="3">
             <mat-card style="height: 90px; width: 100%; background-color: #fafafa;">
-                <div style="display: flex; justify-content: space-between;">
+                <div class="titulo">
                     <h3 style="margin-bottom: 5px; margin-top: 5px;">
                         {{presentacion.politica.nombre}}
                     </h3>
-                    <span>
-                        Total de anotaciones: {{presentacion.total_anotaciones}}
-                    </span>
                 </div>
                 <br>
-                <span>
+                <span style="font-weight: 500;">
                     Fecha en que se guardo la política: {{presentacion.politica.fecha}}
                 </span>
             </mat-card>
