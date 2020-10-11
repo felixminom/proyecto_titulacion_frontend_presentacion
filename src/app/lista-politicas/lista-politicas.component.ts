@@ -19,7 +19,9 @@ export class ListaPoliticasComponent implements OnInit {
   constructor(
     private _router : Router,
     private _listaPoliticasService : ListaPoliticasService
-  ) { }
+  ) { 
+    this.consultarPoliticas();
+  }
 
   redirigirPolitica(politica : Politica){
     this._router.navigate(['listaPoliticas/Politica'],  { state: { politica_id: politica.id } })
@@ -32,15 +34,16 @@ export class ListaPoliticasComponent implements OnInit {
   consultarPoliticas(){
     this._listaPoliticasService.consultarListaPoliticas().subscribe(
       (politicas : Politica[]) => this.listaPoliticas = new MatTableDataSource(politicas),
-      () => console.log('error')
+      () => alert('No ha sido posible cargar la lista de políticas de privacidad')
     )
   }
 
   ngOnInit() {
-    this.consultarPoliticas();
-    this.listaPoliticas.filterPredicate = function(data, filter : string): boolean {
-      return data.nombre.toLowerCase().includes(filter)
+    if (this.listaPoliticas){
+      this.listaPoliticas.filterPredicate = function(data, filter : string): boolean {
+        return data.nombre.toLowerCase().includes(filter)
+      }
     }
+  
   }
-
 }

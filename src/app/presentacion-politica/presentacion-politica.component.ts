@@ -96,7 +96,7 @@ export class PresentacionPoliticaComponent{
                 valor.color_primario + '; cursor: pointer">' +
                 anotacion.texto_html + this.obtenerToolTip(anotacion) + "</span>";
 
-              this.nuevoParrafo = this.nuevoParrafo.replace(anotacion.texto_html, textoCss)
+              this.nuevoParrafo = this.nuevoParrafo.replace(anotacion.texto_html.trim(), textoCss)
               break;
             }
           }
@@ -130,7 +130,7 @@ export class PresentacionPoliticaComponent{
                 valor.color_primario + '; cursor: pointer">' +
                 anotacion.texto_html + this.obtenerToolTip(anotacion) + "</span>";
 
-              this.nuevoParrafo = this.nuevoParrafo.replace(anotacion.texto_html, textoCss)
+              this.nuevoParrafo = this.nuevoParrafo.replace(anotacion.texto_html.trim(), textoCss)
               break;
             }
           }
@@ -212,7 +212,7 @@ export class PresentacionPoliticaComponent{
               anotacion.tratamientos[0].color_primario + '; cursor: pointer">' +
               anotacion.texto_html + this.obtenerToolTip(anotacion) + "</span>"
 
-            this.nuevoParrafo = this.nuevoParrafo.replace(anotacion.texto_html, textoCss)
+            this.nuevoParrafo = this.nuevoParrafo.replace(anotacion.texto_html.trim(), textoCss)
 
           }
         )
@@ -228,9 +228,9 @@ export class PresentacionPoliticaComponent{
   }
 
   obtenerToolTip(anotacion: Anotacion): string {
-    var encabezado = '<span class="tooltiptext"> Total anotaciones: ' +
-      anotacion.tratamientos.length + this.permiteComoTexto(anotacion.permite)
-    var pie = '</span>'
+    var encabezado = '<div class="tooltiptext"><span> Total de valores anotados: ' +
+      anotacion.tratamientos.length + '</span><br>' + this.permiteComoTexto(anotacion.permite) 
+    var pie = '</div><br>'
 
     anotacion.tratamientos.forEach(anotacion => {
       encabezado += '<div style="color: ' + anotacion.color_primario + ';">' +
@@ -241,7 +241,7 @@ export class PresentacionPoliticaComponent{
     });
 
     if (anotacion.comentario) {
-      encabezado += '<div style:"font-weigth: bold"> Comentario: </div>' + '<div>' + anotacion.comentario + '</div>'
+      encabezado += '<br><div style:"font-weigth: bold"> Comentario: </div>' + '<div>' + anotacion.comentario + '</div>'
     }
 
     return encabezado + pie
@@ -249,9 +249,9 @@ export class PresentacionPoliticaComponent{
 
   permiteComoTexto(permite : boolean):string{
     if (permite){
-      return '<span style="color: green"> PERMITE </span>'
+      return '<span style="color: green">PERMITE</span><br>'
     }else {
-      return '<span style="color: red">NO PERMITE </span>'
+      return '<span style="color: red">NO PERMITE</span><br>'
     }
   }
 
@@ -262,7 +262,7 @@ export class PresentacionPoliticaComponent{
        this.dataSource.data = politica.tratamientos
        this.politicaOriginal()
       },
-      error => console.log(error)
+      () => alert('No ha sido posible cargar la política de privacidad')
     )
   }
 }

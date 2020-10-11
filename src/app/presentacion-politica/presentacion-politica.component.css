@@ -79,8 +79,9 @@
 
 .titulo {
     display: flex; 
-    justify-content: space-between;
+    justify-content: center;
     text-transform: uppercase;
+    color: #106CC8;
 }
 
 ::ng-deep .anotacion {
@@ -94,11 +95,13 @@
     margin-top: 10px;
     text-align: justify !important;
     padding-left: 10px !important;
+    padding-right: 10px !important;
 }
 
 ::ng-deep .anotacion .tooltiptext{
     visibility: hidden;
-    width: 400px;
+    min-width: 400px;
+    width: fit-content;
     background-color: white;
     color: black;
     text-align: center;

@@ -16,7 +16,6 @@ export class PresentacionPoliticaService {
   ) { }
 
   consultarPoliticaPresentacion(politica_id : number): Observable<PoliticaPresentacion>{
-    console.log('servicio')
     return this.http.get<PoliticaPresentacion>(this.url + politica_id);
   }
 }
