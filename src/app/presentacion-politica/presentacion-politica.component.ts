@@ -206,6 +206,15 @@ export class PresentacionPoliticaComponent{
     this.presentarPolitica(politicaTexto);
   }
 
+  darEstiloTitulo(parrafo: Parrafo):string {
+    return '<span style="font-weight: bold; font-size: 18px;">' + parrafo.titulo + '</span><br><br>'
+  }
+
+  darEstiloAnotacion(anotacion: Anotacion, color: string): string {
+    return ('<span class="anotacion" style="color: ' + color + '; cursor: pointer">' 
+            + anotacion.texto_html + this.obtenerToolTip(anotacion) + "</span>")
+  }
+  
   obtenerToolTip(anotacion: Anotacion): string {
     var encabezado = '<div class="tooltiptext"><span> Total de valores anotados: ' +
       anotacion.tratamientos.length + '</span><br>' + this.permiteComoTexto(anotacion.permite) 
@@ -232,16 +241,6 @@ export class PresentacionPoliticaComponent{
     }else {
       return '<span style="color: red">NO PERMITE</span><br>'
     }
-  }
-
-  darEstiloAnotacion(anotacion: Anotacion, color: string): string {
-    return ('<span class="anotacion" style="color: ' + color + '; cursor: pointer">' 
-            + anotacion.texto_html + this.obtenerToolTip(anotacion) + "</span>")
-
-  }
-
-  darEstiloTitulo(parrafo: Parrafo):string {
-    return '<span style="font-weight: bold; font-size: 18px;">' + parrafo.titulo + '</span><br><br>'
   }
 
   presentarPolitica(politica: string){
