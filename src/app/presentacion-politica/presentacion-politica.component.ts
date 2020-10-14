@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { Tratamiento, PoliticaPresentacion, Anotacion } from './presentacion-politica'
+import { Tratamiento, PoliticaPresentacion, Anotacion, Parrafo } from './presentacion-politica'
 import { DOCUMENT } from '@angular/common';
 import { PresentacionPoliticaService } from './presentacion-politica.service';
 import { Router } from '@angular/router';
@@ -23,7 +23,6 @@ interface TratamientoNodo {
 
 
 export class PresentacionPoliticaComponent{
-
   filtradoTratamiento: boolean = false;
   tratamientoFiltroId: number = 0;
 
@@ -34,8 +33,7 @@ export class PresentacionPoliticaComponent{
   colorTexto: string = "#000";
 
   presentacion: PoliticaPresentacion;
-  politicaTexto: string = "";
-  politicaId : number = 0;
+   politicaId : number = 0;
 
   private _transformer = (node: Tratamiento, level: number) => {
     return {
@@ -57,6 +55,8 @@ export class PresentacionPoliticaComponent{
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
+  hasChild = (_: number, node: TratamientoNodo) => node.expandable;
+
   constructor(
     @Inject(DOCUMENT) private _documento: Document,
     private _presentacionPoliticaService : PresentacionPoliticaService,
@@ -66,10 +66,7 @@ export class PresentacionPoliticaComponent{
     this.consultarPolitica(this.politicaId)
   }
 
-  hasChild = (_: number, node: TratamientoNodo) => node.expandable;
-
   //Manejo de filtros
-
   filtrarAtributo(atributo: Tratamiento) {
     this.filtradoAtributo = true;
     this.atributoFiltroId = atributo.id;
@@ -79,71 +76,61 @@ export class PresentacionPoliticaComponent{
   }
 
   aplicarFiltroTratamiento(tratamiento_id: number) {
+    let politicaTexto: string = "";
+
     this.presentacion.politica.parrafos.forEach(
       parrafo => {
-        this.nuevoParrafo = parrafo.texto_html
+        let parrafoCss: string = "";
 
         if (parrafo.titulo != '') {
-          this.politicaTexto += '<span style="font-weight: bold; font-size: 18px;">'
-            + parrafo.titulo + '</span><br><br>';
+          parrafoCss += this.darEstiloParrafo(parrafo)
         }
+
+        parrafoCss += parrafo.texto_html
 
         for (let anotacion of parrafo.anotaciones) {
           for (let valor of anotacion.tratamientos) {
 
             if (valor.tratamiento_id === tratamiento_id) {
-              let textoCss: string = '<span class="anotacion" style="color: ' +
-                valor.color_primario + '; cursor: pointer">' +
-                anotacion.texto_html + this.obtenerToolTip(anotacion) + "</span>";
-
-              this.nuevoParrafo = this.nuevoParrafo.replace(anotacion.texto_html.trim(), textoCss)
+              let textoCss: string = this.darEstiloAnotacion(anotacion, valor.color_primario)
+              parrafoCss = parrafoCss.replace(anotacion.texto_html.trim(), textoCss)
               break;
             }
           }
         }
-        this.politicaTexto += this.nuevoParrafo;
+        politicaTexto += parrafoCss;
       }
     )
-
-    this.politicaTexto += "<br><br><br><br>";
-    let textoHtml = this._documento.getElementById("politica")
-    textoHtml.innerHTML = this.politicaTexto
-    this.politicaTexto = "";
-    this.nuevoParrafo = "";
+    this.presentarPolitica(politicaTexto);
   }
 
   aplicarFiltroAtributo(atributo_id: number) {
+    let politicaTexto: string = "";
+
     this.presentacion.politica.parrafos.forEach(
       parrafo => {
-        this.nuevoParrafo = parrafo.texto_html
+        let parrafoCss: string = "";
 
         if (parrafo.titulo != '') {
-          this.politicaTexto += '<span style="font-weight: bold; font-size: 18px;">'
-            + parrafo.titulo + '</span><br><br>';
+          parrafoCss += this.darEstiloParrafo(parrafo);
         }
+
+        parrafoCss += parrafo.texto_html
 
         for (let anotacion of parrafo.anotaciones) {
           for (let valor of anotacion.tratamientos) {
 
             if (valor.atributo_id === atributo_id) {
-              let textoCss: string = '<span class="anotacion" style="color: ' +
-                valor.color_primario + '; cursor: pointer">' +
-                anotacion.texto_html + this.obtenerToolTip(anotacion) + "</span>";
-
-              this.nuevoParrafo = this.nuevoParrafo.replace(anotacion.texto_html.trim(), textoCss)
+              let textoCss: string = this.darEstiloAnotacion(anotacion, valor.color_primario);
+              parrafoCss = parrafoCss.replace(anotacion.texto_html.trim(), textoCss)
               break;
             }
           }
         }
-        this.politicaTexto += this.nuevoParrafo;
+        politicaTexto += parrafoCss;
       }
     )
-
-    this.politicaTexto += "<br><br><br><br>";
-    let textoHtml = this._documento.getElementById("politica")
-    textoHtml.innerHTML = this.politicaTexto
-    this.politicaTexto = "";
-    this.nuevoParrafo = "";
+    this.presentarPolitica(politicaTexto);
   }
 
 
@@ -193,38 +180,30 @@ export class PresentacionPoliticaComponent{
   }
 
   //Manejo de politica
-  nuevoParrafo: string;
-
   politicaOriginal() {
+    let politicaTexto: string = "";
+  
     this.presentacion.politica.parrafos.forEach(
       parrafo => {
-        this.nuevoParrafo = parrafo.texto_html;
+        let parrafoCss: string = "";
 
         if (parrafo.titulo != '') {
-          this.politicaTexto += '<span style="font-weight: bold; font-size: 18px;">'
-            + parrafo.titulo + '</span><br><br>';
+          parrafoCss += this.darEstiloParrafo(parrafo);
         }
+        
+        parrafoCss += parrafo.texto_html;
 
         parrafo.anotaciones.forEach(
           anotacion => {
+            let textoCss: string = this.darEstiloAnotacion(anotacion, anotacion.tratamientos[0].color_primario)
 
-            let textoCss: string = '<span class="anotacion" style="color: ' +
-              anotacion.tratamientos[0].color_primario + '; cursor: pointer">' +
-              anotacion.texto_html + this.obtenerToolTip(anotacion) + "</span>"
-
-            this.nuevoParrafo = this.nuevoParrafo.replace(anotacion.texto_html.trim(), textoCss)
-
+            parrafoCss = parrafoCss.replace(anotacion.texto_html.trim(), textoCss)
           }
         )
-        this.politicaTexto += this.nuevoParrafo;
+        politicaTexto += parrafoCss;
       }
     )
-
-    this.politicaTexto += "<br><br><br><br>";
-    let textoHtml = this._documento.getElementById("politica")
-    textoHtml.innerHTML = this.politicaTexto
-    this.politicaTexto = "";
-    this.nuevoParrafo = "";
+    this.presentarPolitica(politicaTexto);
   }
 
   obtenerToolTip(anotacion: Anotacion): string {
@@ -253,6 +232,22 @@ export class PresentacionPoliticaComponent{
     }else {
       return '<span style="color: red">NO PERMITE</span><br>'
     }
+  }
+
+  darEstiloAnotacion(anotacion: Anotacion, color: string): string {
+    return ('<span class="anotacion" style="color: ' + color + '; cursor: pointer">' 
+            + anotacion.texto_html + this.obtenerToolTip(anotacion) + "</span>")
+
+  }
+
+  darEstiloParrafo(parrafo: Parrafo):string {
+    return '<span style="font-weight: bold; font-size: 18px;">' + parrafo.titulo + '</span><br><br>'
+  }
+
+  presentarPolitica(politica: string){
+    politica += "<br><br><br><br>";
+    let textoHtml = this._documento.getElementById("politica")
+    textoHtml.innerHTML = politica
   }
 
   consultarPolitica(politica_id: number){
