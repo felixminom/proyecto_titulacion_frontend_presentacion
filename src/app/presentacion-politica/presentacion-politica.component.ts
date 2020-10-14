@@ -83,7 +83,7 @@ export class PresentacionPoliticaComponent{
         let parrafoCss: string = "";
 
         if (parrafo.titulo != '') {
-          parrafoCss += this.darEstiloParrafo(parrafo)
+          parrafoCss += this.darEstiloTitulo(parrafo)
         }
 
         parrafoCss += parrafo.texto_html
@@ -112,7 +112,7 @@ export class PresentacionPoliticaComponent{
         let parrafoCss: string = "";
 
         if (parrafo.titulo != '') {
-          parrafoCss += this.darEstiloParrafo(parrafo);
+          parrafoCss += this.darEstiloTitulo(parrafo);
         }
 
         parrafoCss += parrafo.texto_html
@@ -188,7 +188,7 @@ export class PresentacionPoliticaComponent{
         let parrafoCss: string = "";
 
         if (parrafo.titulo != '') {
-          parrafoCss += this.darEstiloParrafo(parrafo);
+          parrafoCss += this.darEstiloTitulo(parrafo);
         }
         
         parrafoCss += parrafo.texto_html;
@@ -240,7 +240,7 @@ export class PresentacionPoliticaComponent{
 
   }
 
-  darEstiloParrafo(parrafo: Parrafo):string {
+  darEstiloTitulo(parrafo: Parrafo):string {
     return '<span style="font-weight: bold; font-size: 18px;">' + parrafo.titulo + '</span><br><br>'
   }
 
