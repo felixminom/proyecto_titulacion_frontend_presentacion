@@ -21,7 +21,6 @@ interface TratamientoNodo {
   styleUrls: ['./presentacion-politica.component.css']
 })
 
-
 export class PresentacionPoliticaComponent{
   filtradoTratamiento: boolean = false;
   tratamientoFiltroId: number = 0;
@@ -67,14 +66,6 @@ export class PresentacionPoliticaComponent{
   }
 
   //Manejo de filtros
-  filtrarAtributo(atributo: Tratamiento) {
-    this.filtradoAtributo = true;
-    this.atributoFiltroId = atributo.id;
-    this.filtradoTexto = this.filtradoTexto.split("|")[0] + " | " + atributo.descripcion
-
-    this.aplicarFiltroAtributo(atributo.id);
-  }
-
   aplicarFiltroTratamiento(tratamiento_id: number) {
     let politicaTexto: string = "";
 
@@ -133,7 +124,7 @@ export class PresentacionPoliticaComponent{
     this.presentarPolitica(politicaTexto);
   }
 
-
+  //Funcion llamada desde HTML
   manejarFiltroTratamiento(tratamiento: TratamientoNodo) {
     if (this.filtradoTratamiento && this.tratamientoFiltroId == tratamiento.id) {
       this.filtradoTratamiento = false;
@@ -159,6 +150,14 @@ export class PresentacionPoliticaComponent{
           }
         })
     }
+  }
+
+  manejarFiltroAtributo(atributo: Tratamiento) {
+    this.filtradoAtributo = true;
+    this.atributoFiltroId = atributo.id;
+    this.filtradoTexto = this.filtradoTexto.split("|")[0] + " | " + atributo.descripcion
+
+    this.aplicarFiltroAtributo(atributo.id);
   }
 
   limpiarFiltros() {

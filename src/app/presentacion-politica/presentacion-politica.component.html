@@ -27,7 +27,7 @@
                     <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding class="fondo"
                         [ngStyle]="{'border-color': node.color_primario}">
                         <span [ngStyle]="{'color': node.color_primario}" matTooltip="Filtrar por este atributo"
-                            class="textoAtributo" (click)="filtrarAtributo(node)">
+                            class="textoAtributo" (click)="manejarFiltroAtributo(node)">
                             {{node.descripcion}}
                         </span>
                     </mat-tree-node>

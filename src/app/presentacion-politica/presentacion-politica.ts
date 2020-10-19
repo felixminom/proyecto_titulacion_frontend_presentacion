@@ -1,3 +1,4 @@
+//Esta clase puede ser usada para Tratamientos o Atributos
 export class Tratamiento {
     id: number;
     descripcion: string;
