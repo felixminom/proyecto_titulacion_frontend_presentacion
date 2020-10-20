@@ -44,6 +44,5 @@ export class ListaPoliticasComponent implements OnInit {
         return data.nombre.toLowerCase().includes(filter)
       }
     }
-  
   }
 }
