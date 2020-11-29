@@ -56,22 +56,23 @@
 
         <mat-grid-tile [colspan]="1" [rowspan]="19"></mat-grid-tile>
 
-        <mat-grid-tile [colspan]="9" [rowspan]="3">
-            <mat-card style="height: 90px; width: 100%; background-color: #fafafa;">
+        <mat-grid-tile [colspan]="9" [rowspan]="4">
+            <mat-card class="encabezado">
                 <div class="titulo">
-                    <h3 style="margin-bottom: 5px; margin-top: 5px;">
+                    <h1 style="margin-bottom: 5px; margin-top: 5px;">
                         {{presentacion?.politica.nombre}}
-                    </h3>
+                    </h1>
                 </div>
                 <br>
-                <span style="font-weight: 500;">
-                    Fecha en que se guardo la política: {{presentacion?.politica.fecha}}
-                </span>
+                <div style="text-align:end; font-weight: 500;">
+                    <span >
+                        Fecha en que se guardo la política: {{presentacion?.politica.fecha}}
+                    </span>
+                </div>
             </mat-card>
         </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="9" [rowspan]="16">
-
+        <mat-grid-tile [colspan]="9" [rowspan]="24">
             <mat-card id="politica" class="card">
             </mat-card>
         </mat-grid-tile>

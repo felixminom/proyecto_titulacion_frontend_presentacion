@@ -68,13 +68,21 @@
 }
 
 .card {
-    height: 480px; 
+    height: 75vh; 
     width: 100%; 
     overflow-y: auto; 
     overflow-x: hidden;
-    background-color: #fafafa;
     text-align: justify;
     border-radius: 10px;
+    box-shadow: none;
+}
+
+.encabezado {
+    height: fit-content;
+    width: 100%;
+    border-bottom: solid 2px black;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .titulo {
