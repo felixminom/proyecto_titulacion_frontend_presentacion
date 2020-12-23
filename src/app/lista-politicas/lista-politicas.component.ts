@@ -10,7 +10,7 @@ import { ListaPoliticasService } from './lista-politicas.service';
   styleUrls: ['./lista-politicas.component.css']
 })
 
-export class ListaPoliticasComponent implements OnInit {
+export class ListaPoliticasComponent {
 
   displayedColumns = ['id', 'nombre', 'fecha', 'total_anotaciones'];
 
@@ -33,16 +33,12 @@ export class ListaPoliticasComponent implements OnInit {
 
   consultarPoliticas(){
     this._listaPoliticasService.consultarListaPoliticas().subscribe(
-      (politicas : Politica[]) => this.listaPoliticas = new MatTableDataSource(politicas),
+      (politicas : Politica[]) => {
+        this.listaPoliticas = new MatTableDataSource(politicas)
+        this.listaPoliticas.filterPredicate = function(data, filter : string): boolean {
+          return data.nombre.toLowerCase().includes(filter) }
+      },
       () => alert('No ha sido posible cargar la lista de políticas de privacidad')
     )
-  }
-
-  ngOnInit() {
-    if (this.listaPoliticas){
-      this.listaPoliticas.filterPredicate = function(data, filter : string): boolean {
-        return data.nombre.toLowerCase().includes(filter)
-      }
-    }
   }
 }

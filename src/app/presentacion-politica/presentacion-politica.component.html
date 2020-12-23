@@ -19,35 +19,35 @@
                         Da click en una categoria para filtar anotaciones
                     </small>
                     <br>
-                    <small *ngIf="filtradoTratamiento" [ngStyle]="{'color': colorTexto}">
+                    <div *ngIf="filtradoTratamiento" [ngStyle]="{'color': colorTexto}" style="margin-top: 1vh; font-weight: 500;">
                         Filtrado por: {{filtradoTexto}}
-                    </small>
+                    </div>
                 </div>
                 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" style="margin-top: 10px;">
                     <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding class="fondo"
-                        [ngStyle]="{'border-color': node.color_primario}">
-                        <span [ngStyle]="{'color': node.color_primario}" matTooltip="Filtrar por este atributo"
-                            class="textoAtributo" (click)="manejarFiltroAtributo(node)">
-                            {{node.descripcion}}
-                        </span>
-                    </mat-tree-node>
-
-                    <mat-tree-node 
-                                *matTreeNodeDef="let node;when: hasChild" 
-                                matTreeNodePadding class="fondo" 
-                                [ngStyle]="{'background-image': estiloTratamiento(node),'border-color': node.color_primario}">
-
-                        <div style="display: flex; justify-content: space-between; width: 95%;">
-                            <span matTooltip="Filtrar por este tratamiento" class="texto"
-                                (click)="manejarFiltroTratamiento(node)">
+                        [ngStyle]="{'border-color': node.color_primario}" style="margin-left: 2vw">
+                        <div style="display: flex; justify-content: space-between; width: 94%;">
+                            <span [ngStyle]="{'color': node.color_primario}" matTooltip="Filtrar por este atributo"
+                                class="textoAtributo" (click)="manejarFiltroAtributo(node)">
                                 {{node.descripcion}}
                             </span>
                             <span class="anotaciones" [ngStyle]="{'background-color': node.color_primario}">
                                 {{node.numero_anotaciones}}
                             </span>
-
                         </div>
-
+                
+                    </mat-tree-node>
+                
+                    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding class="fondo"
+                        [ngStyle]="{'background-image': estiloTratamiento(node),'border-color': node.color_primario}">
+                        <div style="display: flex; justify-content: space-between; width: 95%;">
+                            <span matTooltip="Filtrar por este tratamiento" class="texto" (click)="manejarFiltroTratamiento(node)">
+                                {{node.descripcion}}
+                            </span>
+                            <span class="anotaciones" [ngStyle]="{'background-color': node.color_primario}">
+                                {{node.numero_anotaciones}}
+                            </span>
+                        </div>
                     </mat-tree-node>
                 </mat-tree>
 
@@ -65,7 +65,7 @@
                 </div>
                 <br>
                 <div style="text-align:end; font-weight: 500;">
-                    <span >
+                    <span>
                         Fecha en que se guardo la política: {{presentacion?.politica.fecha}}
                     </span>
                 </div>

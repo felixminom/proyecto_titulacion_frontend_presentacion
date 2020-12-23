@@ -215,30 +215,33 @@ export class PresentacionPoliticaComponent{
   }
   
   obtenerToolTip(anotacion: Anotacion): string {
-    var encabezado = '<div class="tooltiptext"><span> Total de valores anotados: ' +
-      anotacion.tratamientos.length + '</span><br>' + this.permiteComoTexto(anotacion.permite) 
-    var pie = '</div><br>'
+    let encabezado = '<div class="tooltiptext"><span> Total de valores anotados: ' +
+      anotacion.tratamientos.length + '</span><br>' + this.permiteComoTexto(anotacion.permite) + '<ul>'
+    let cuerpo = '';
+    let pie = '</div><br>'
 
     anotacion.tratamientos.forEach(anotacion => {
-      encabezado += '<div style="color: ' + anotacion.color_primario + ';">' +
+      cuerpo += '<li><div style="color: ' + anotacion.color_primario + ';">' +
         anotacion.tratamiento_descripcion + ' | ' +
         anotacion.atributo_descripcion + ' | ' +
-        anotacion.valor_descripcion + '</div>'
+        anotacion.valor_descripcion + '</div></li>'
 
     });
 
+    cuerpo += '</ul>'
+
     if (anotacion.comentario) {
-      encabezado += '<br><div style:"font-weigth: bold"> Comentario: </div>' + '<div>' + anotacion.comentario + '</div>'
+      cuerpo += '<div style:"font-weigth: bold"> Comentario: </div>' + '<div>' + anotacion.comentario + '</div>'
     }
 
-    return encabezado + pie
+    return encabezado + cuerpo + pie
   }
 
   permiteComoTexto(permite : boolean):string{
     if (permite){
-      return '<span style="color: green">PERMITE</span><br>'
+      return '<div>Esta política de privacidad <span style="color: green">EJECUTA</span> estos tratamientos:</div>'
     }else {
-      return '<span style="color: red">NO PERMITE</span><br>'
+      return '<div>Esta política de privacidad <span style="color: red">NO EJECUTA</span> estos tratamientos:</div>'
     }
   }
 
@@ -254,6 +257,7 @@ export class PresentacionPoliticaComponent{
        this.presentacion = politica
        this.dataSource.data = politica.tratamientos
        this.politicaOriginal()
+       console.log(politica.tratamientos)
       },
       () => alert('No ha sido posible cargar la política de privacidad')
     )
