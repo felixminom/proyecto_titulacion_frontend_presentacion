@@ -216,9 +216,9 @@ export class PresentacionPoliticaComponent{
   
   obtenerToolTip(anotacion: Anotacion): string {
     let encabezado = '<div class="tooltiptext"><span> Total de valores anotados: ' +
-      anotacion.tratamientos.length + '</span><br>' + this.permiteComoTexto(anotacion.permite) + '<ul>'
+      anotacion.tratamientos.length + '</span><br>' + this.ejecutaComoTexto(anotacion.ejecuta) + '<ul>'
     let cuerpo = '';
-    let pie = '</div><br>'
+    let pie = '</div>'
 
     anotacion.tratamientos.forEach(anotacion => {
       cuerpo += '<li><div style="color: ' + anotacion.color_primario + ';">' +
@@ -237,8 +237,8 @@ export class PresentacionPoliticaComponent{
     return encabezado + cuerpo + pie
   }
 
-  permiteComoTexto(permite : boolean):string{
-    if (permite){
+  ejecutaComoTexto(ejecuta : boolean):string{
+    if (ejecuta){
       return '<div>Esta política de privacidad <span style="color: green">EJECUTA</span> estos tratamientos:</div>'
     }else {
       return '<div>Esta política de privacidad <span style="color: red">NO EJECUTA</span> estos tratamientos:</div>'

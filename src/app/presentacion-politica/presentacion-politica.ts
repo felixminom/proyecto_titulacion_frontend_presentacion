@@ -31,7 +31,7 @@ export class Anotacion {
     id : number;
     texto_html : string; 
     comentario: string;
-    permite : boolean;
+    ejecuta : boolean;
     tratamientos : TratamientoAnotacion[];
 }
 
