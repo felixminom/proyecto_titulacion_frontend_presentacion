@@ -1,4 +1,5 @@
 //Esta clase puede ser usada para Tratamientos o Atributos
+//se usa para la presentación de la lista lateral de tratamientos
 export class Tratamiento {
     id: number;
     descripcion: string;

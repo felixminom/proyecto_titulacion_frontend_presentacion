@@ -65,7 +65,7 @@ export class PresentacionPoliticaComponent{
     this.consultarPolitica(this.politicaId)
   }
 
-  //Manejo de filtros
+  //Filtrado de anotaciones por tratamiento
   aplicarFiltroTratamiento(tratamiento_id: number) {
     let politicaTexto: string = "";
 
@@ -95,6 +95,7 @@ export class PresentacionPoliticaComponent{
     this.presentarPolitica(politicaTexto);
   }
 
+  //Filtrado de anotaciones por atributo
   aplicarFiltroAtributo(atributo_id: number) {
     let politicaTexto: string = "";
 
@@ -124,7 +125,8 @@ export class PresentacionPoliticaComponent{
     this.presentarPolitica(politicaTexto);
   }
 
-  //Funcion llamada desde HTML
+  //Mantiene el estado del filtro sobre un tratamiento
+  //esta función se invoca desde el código html.
   manejarFiltroTratamiento(tratamiento: TratamientoNodo) {
     if (this.filtradoTratamiento && this.tratamientoFiltroId == tratamiento.id) {
       this.filtradoTratamiento = false;
@@ -151,7 +153,9 @@ export class PresentacionPoliticaComponent{
         })
     }
   }
-
+  
+  //Mantiene el estado del filtro sobre un atributo
+  //esta función se invoca desde el código html.
   manejarFiltroAtributo(atributo: Tratamiento) {
     this.filtradoAtributo = true;
     this.atributoFiltroId = atributo.id;
@@ -160,6 +164,7 @@ export class PresentacionPoliticaComponent{
     this.aplicarFiltroAtributo(atributo.id);
   }
 
+  //Limpia todos los filtros presentes
   limpiarFiltros() {
     this.filtradoTratamiento = false;
     this.filtradoAtributo = false;
@@ -170,15 +175,7 @@ export class PresentacionPoliticaComponent{
     this.politicaOriginal();
   }
 
-  estiloTratamiento(tratamiento: TratamientoNodo) {
-    let color = tratamiento.color_primario
-    let porcentaje = tratamiento.porcentaje
-    let estilo = "-webkit-linear-gradient(left, " + color + ", " + color + "7F " + porcentaje + "%, " + "transparent " + porcentaje + "%, " + "transparent 100%)"
-
-    return estilo
-  }
-
-  //Manejo de politica
+  //Presentación de política de privacidad sin filtros
   politicaOriginal() {
     let politicaTexto: string = "";
   
@@ -194,7 +191,8 @@ export class PresentacionPoliticaComponent{
 
         parrafo.anotaciones.forEach(
           anotacion => {
-            let textoCss: string = this.darEstiloAnotacion(anotacion, anotacion.tratamientos[0].color_primario)
+            let textoCss: string = 
+              this.darEstiloAnotacion(anotacion, anotacion.tratamientos[0].color_primario)
 
             parrafoCss = parrafoCss.replace(anotacion.texto_html.trim(), textoCss)
           }
@@ -205,15 +203,27 @@ export class PresentacionPoliticaComponent{
     this.presentarPolitica(politicaTexto);
   }
 
+  //Rellena un tratamiento de su color con el porcentaje que el tratamiento representa del total de anotaciones
+  estiloTratamiento(tratamiento: TratamientoNodo) {
+    let color = tratamiento.color_primario
+    let porcentaje = tratamiento.porcentaje
+    let estilo = "-webkit-linear-gradient(left, " + color + ", " + color + "7F " + porcentaje + "%, " + "transparent " + porcentaje + "%, " + "transparent 100%)"
+
+    return estilo
+  }
+
+  //Estiliza los titulos de las secciones de la política
   darEstiloTitulo(parrafo: Parrafo):string {
     return '<span style="font-weight: bold; font-size: 18px;">' + parrafo.titulo + '</span><br><br>'
   }
 
+  //Estiliza las anotaciones de la política
   darEstiloAnotacion(anotacion: Anotacion, color: string): string {
     return ('<span class="anotacion" style="color: ' + color + '; cursor: pointer">' 
             + anotacion.texto_html + this.obtenerToolTip(anotacion) + "</span>")
   }
   
+  //Permite estilizar el tooltip que se adjunta a cada anotación
   obtenerToolTip(anotacion: Anotacion): string {
     let encabezado = '<div class="tooltiptext"><span> Total de valores anotados: ' +
       anotacion.tratamientos.length + '</span><br>' + this.ejecutaComoTexto(anotacion.ejecuta) + '<ul>'
@@ -245,6 +255,7 @@ export class PresentacionPoliticaComponent{
     }
   }
 
+  //Reemplaza el componente HTML con la política estilizada
   presentarPolitica(politica: string){
     politica += "<br><br><br><br>";
     let textoHtml = this._documento.getElementById("politica")

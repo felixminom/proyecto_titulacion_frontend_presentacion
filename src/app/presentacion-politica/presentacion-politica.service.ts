@@ -15,6 +15,7 @@ export class PresentacionPoliticaService {
     private http: HttpClient
   ) { }
 
+  //Consulta al backend de política de privacidad con sus anotaciones
   consultarPoliticaPresentacion(politica_id : number): Observable<PoliticaPresentacion>{
     return this.http.get<PoliticaPresentacion>(this.url + politica_id);
   }

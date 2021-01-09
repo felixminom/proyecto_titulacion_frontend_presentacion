@@ -23,14 +23,17 @@ export class ListaPoliticasComponent {
     this.consultarPoliticas();
   }
 
+  //Se ejecuta cuando una política es seleccionada
   redirigirPolitica(politica : Politica){
     this._router.navigate(['listaPoliticas/Politica'],  { state: { politica_id: politica.id } })
   }
 
+  //filtrado de anotaciones por el texto de entrada
   aplicarFiltro(valor: string) {
     this.listaPoliticas.filter = valor.trim().toLowerCase()
   }
 
+  //consulta de políticas listas para visualizar
   consultarPoliticas(){
     this._listaPoliticasService.consultarListaPoliticas().subscribe(
       (politicas : Politica[]) => {

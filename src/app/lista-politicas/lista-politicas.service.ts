@@ -15,6 +15,7 @@ export class ListaPoliticasService {
     private http: HttpClient
   ) { }
 
+  //Consulta al backend de politicas disponibles para visualizar
   consultarListaPoliticas(): Observable<Politica[]>{
     return this.http.get<Politica[]>(this.url)
   }
